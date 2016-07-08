@@ -7,6 +7,8 @@ mqttc = mqtt.Client()
 mqttc.connect(settings.mqtt_host)
 mqttc.loop_start()
 
+total = 0
+
 for sensor in settings.sensors:
 
   r = requests.get(base_url % (settings.flukso_host, sensor['id']))
@@ -28,5 +30,8 @@ for sensor in settings.sensors:
   power = round(sum/num)
   mqttc.publish(settings.mqtt_base_topic + sensor['name'], power, retain=True)
 
+  total += power
+
+mqttc.publish(settings.mqtt_base_topic + 'total', power, retain=True)
 mqttc.loop_stop()
 mqttc.disconnect()
