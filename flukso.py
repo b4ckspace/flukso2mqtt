@@ -32,6 +32,6 @@ for sensor in settings.sensors:
 
   total += power
 
-mqttc.publish(settings.mqtt_base_topic + 'total', power, retain=True)
+mqttc.publish(settings.mqtt_base_topic + 'total', total, retain=True)
 mqttc.loop_stop()
 mqttc.disconnect()
